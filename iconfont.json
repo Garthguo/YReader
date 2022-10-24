@@ -1,0 +1,8 @@
+{
+  "symbol_url": "//at.alicdn.com/t/c/font_3704923_ebrtnymji1i.js",
+  "use_typescript": true,
+  "save_dir": "./src/iconfont",
+  "trim_icon_prefix": "icon",
+  "default_icon_size": 18,
+  "local_svgs": ""
+}

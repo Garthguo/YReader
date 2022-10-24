@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/myFont.ttf",
+      "sha1": "cb55699f4cd84186c97b229a1b7845a493e773f7"
+    },
+    {
+      "path": "src/assets/fonts/新建 文本文档.txt",
+      "sha1": "6657863c0a6ee376f3b3f5032ba66fdee88a31ce"
+    }
+  ]
+}
