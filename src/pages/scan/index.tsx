@@ -10,298 +10,256 @@ import {
   StatusBar,
   Animated,
   ScrollView,
-  FlatList,
+  VirtualizedList,
 } from 'react-native';
-import React, {useEffect, useCallback, useRef, useState} from 'react';
+import React, {
+  useEffect,
+  useCallback,
+  useRef,
+  useState,
+  useMemo,
+  useLayoutEffect,
+} from 'react';
+const data = Array(1000000);
+console.log(data.length);
+
+let midIndex: number = 5000;
 import {useContentSetStore} from 'src/store/reader';
-import {LazyPagerView} from 'react-native-pager-view';
-import useChapterForUrl from 'src/hooks/useChapterForUrl';
+import useChapterForUrl, {getChapterForFun} from 'src/hooks/useChapterForUrl';
 import ChapterList from 'src/assets/js/data';
 import {parseContent} from 'src/util/parse';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import InfinitePager, {Preset} from 'react-native-infinite-pager';
 const Stack = createNativeStackNavigator();
-let count = 0;
-const AnimatedPagerView = Animated.createAnimatedComponent(LazyPagerView);
-let count1 = 0;
 const fontCount = {height: 1};
-console.log('----------');
-let events: any[] = [];
-const Content: React.FC = () => {
+
+const Scan: React.FC = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="novelList"
+        component={Test2}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
+export default Scan;
+let countIndex = 0;
+const Test2: React.FC = () => {
   const pageRef = useRef(null);
-  const pageIndex = useRef(0);
-  const [show, setShow] = useState(false);
-  const [curIdx, setCurIdx] = useState(10);
-  const [scroll, setScroll] = useState(true);
+  const [bool, setbool] = useState(true);
   const windowHeight = useWindowDimensions().height;
-  const windowWidth = useWindowDimensions().width;
+  console.log('windowHeight', windowHeight);
+
   const {fontSize, lineCount, fontFamily, padding, textColor} =
     useContentSetStore();
+  const cur = useRef(10);
+  const memo = useRef({
+    midIndex,
+    preLen: 0,
+    curLen: 0,
+    nexLen: 0,
+    prePreL: 0,
+    count: 2,
+  });
+  const curIdx = cur.current;
   const lineHeight = fontSize * lineCount;
-  const [preLinesArr, setPreLinesArr] = useState<any[]>(['']);
-  const [curLinesArr, setCurLinesArr] = useState<any[]>([]);
-  const [nexLinesArr, setNexLinesArr] = useState<any[]>([]);
-  console.log('----------');
-  console.log(count++);
   const {content: preContent, title: preTitle} = useChapterForUrl(
     ChapterList[curIdx - 1],
   );
-  // const {content: curContent, title: curTitle} = useChapterForUrl(
-  //   ChapterList[curIdx],
-  // );
-  // const {content: nexContent, title: nexTitle} = useChapterForUrl(
-  //   ChapterList[curIdx + 1],
-  // );
-  setTimeout(() => {
-    setShow(true);
-  }, 0);
+  const {content: curContent, title: curTitle} = useChapterForUrl(
+    ChapterList[curIdx],
+  );
+  const {content: nexContent, title: nexTitle} = useChapterForUrl(
+    ChapterList[curIdx + 1],
+  );
+  const [content, setContent] = useState('');
+  const [curLinesArr, setCurLinesArr] = useState<any[]>([]);
+  const [nexLinesArr, setNexLinesArr] = useState<any[]>([]);
+  const [preLinesArr, setPreLinesArr] = useState<any[]>([]);
   fontCount.height = Math.floor((windowHeight - padding * 2) / lineHeight);
-  useEffect(() => {
-    events.push(
-      DeviceEventEmitter.addListener('changeChapter', type => {
-        if (type === 'next') {
-          console.log(type);
-          setCurIdx(idx => idx + 1);
-        } else {
-          console.log(type);
-          setCurIdx(idx => idx - 1);
-        }
-      }),
+  console.log('fontCount.height', fontCount.height, lineHeight);
+
+  // const data = preLinesArr.concat(curLinesArr).concat(nexLinesArr);
+  useLayoutEffect(() => {
+    // console.log(preLinesArr);
+
+    console.log(
+      'useLayoutEffect',
+      preLinesArr.length,
+      curLinesArr.length,
+      nexLinesArr.length,
     );
-    return () => {
-      events.reduce((pre, cur) => cur.remove());
-    };
-  }, []);
-  setTimeout(() => {
-    pageRef?.current?.ScrollToIndex(3000);
-  }, 3000);
-  const keyExtractor = useCallback((item: any, index) => String(index), []);
-  const renderItem = useCallback(({item}) => {
-    return (
-      <View
-        style={{
-          height: windowHeight,
-          width: windowWidth,
-          backgroundColor: '#eee',
-        }}>
-        <Text
-          selectable
-          style={[
-            textStyle,
-            {
-              width: '100%',
-              minHeight: windowHeight - padding * 2,
-            },
-          ]}>
-          {item}
-        </Text>
-      </View>
-    );
-  }, []);
+    if (
+      preLinesArr.length > 1 &&
+      curLinesArr.length > 1 &&
+      nexLinesArr.length > 1 &&
+      bool
+    ) {
+      console.log(preLinesArr.length, curLinesArr.length, nexLinesArr.length);
+
+      data.splice(midIndex, curLinesArr.length, ...curLinesArr);
+      data.splice(
+        midIndex - preLinesArr.length,
+        preLinesArr.length,
+        ...preLinesArr,
+      );
+      data.splice(
+        midIndex + curLinesArr.length,
+        nexLinesArr.length,
+        ...nexLinesArr,
+      );
+      memo.current.preLen = preLinesArr.length;
+      memo.current.curLen = curLinesArr.length;
+      memo.current.nexLen = nexLinesArr.length;
+      console.log('this is current');
+      setbool(false);
+    }
+  }, [preLinesArr.length, curLinesArr.length, nexLinesArr.length]);
   const textStyle = {
     fontSize,
     lineHeight,
     fontFamily,
     color: textColor,
   };
+  const addPreContent = useCallback(arr => {
+    if (arr.length === 1) return;
+    const mid = memo.current.midIndex;
+    const pre = memo.current.preLen;
+    console.log('addPreContent', mid, arr.length);
+    memo.current.prePreL = memo.current.preLen;
+    memo.current.preLen += arr.length;
+    data.splice(mid - pre - arr.length, arr.length, ...arr);
+  }, []);
+
+  const renderPage = useCallback(
+    ({index}: {index: number}) => {
+      const mid = memo.current.midIndex;
+      const pre = memo.current.preLen;
+      const cur = memo.current.curLen;
+      const nex = memo.current.nexLen;
+      return (
+        <View
+          style={[
+            styles.flex,
+            {
+              alignItems: 'center',
+              // justifyContent: 'center',
+              padding,
+            },
+          ]}>
+          <Text style={textStyle}>{data[index + mid]?.content ?? ''}</Text>
+          <Text
+            style={{
+              color: '#000',
+              fontSize: 40,
+              fontWeight: 'bold',
+              position: 'absolute',
+            }}>
+            {data[index + mid]?.title ?? `${index + mid}-${pre}-${cur}-${nex}`}
+          </Text>
+        </View>
+      );
+    },
+    [preLinesArr.length, curLinesArr.length, nexLinesArr.length, countIndex],
+  );
   return (
-    <TouchableWithoutFeedback>
-      <View style={{height: '100%', width: '100%'}}>
-        <View key={122} style={[{padding}]}>
-          <Text
-            style={[textStyle, style.noPlay]}
-            onTextLayout={text => {
-              const lineArr = text.nativeEvent.lines.map(txt => {
-                return txt.text;
-              });
-              console.log('lineArr.length', lineArr.length);
-              setPreLinesArr(parseContent(lineArr, fontCount.height));
-            }}>
-            {preContent}
-          </Text>
-        </View>
-        <FlatList
-          ref={pageRef}
-          scrollEnabled={true}
-          data={preLinesArr}
-          horizontal
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          // renderItem={({item, index}) => {
-          //   // console.log('renderItem', item);
-          //   return (
-          // <View style={{flex: 1, backgroundColor: '#eee'}}>
-          //   <Text
-          //     selectable
-          //     style={[
-          //       textStyle,
-          //       {
-          //         width: '100%',
-          //         minHeight: windowHeight - padding * 2,
-          //       },
-          //     ]}>
-          //     {item}
-          //   </Text>
-          // </View>
-          //   );
-          // }}
-        />
-        {/* {show && (
-          <View key={122} style={[{padding}]}>
-            <Text
-              style={[textStyle, style.noPlay]}
-              onTextLayout={text => {
-                const lineArr = text.nativeEvent.lines.map(txt => {
-                  return txt.text;
-                });
-                setPreLinesArr(parseContent(lineArr, fontCount.height));
-              }}>
-              {preContent}
-            </Text>
-            <Text style={style.title}>{preTitle}</Text>
-            <Text
-              onPress={() => {
-                DeviceEventEmitter.emit('clickMid');
-                setScroll(!scroll);
-              }}
-              selectable
-              style={[
-                textStyle,
-                style.firstPage,
-                {
-                  minHeight: windowHeight - padding * 2,
-                },
-              ]}>
-              {preLinesArr[0]}
-            </Text>
-          </View>
-        )}
-        {show &&
-          preLinesArr.slice(1, preLinesArr.length).map((content, idx) => {
-            const index = idx + 1;
-            return (
-              <View key={index} style={[{padding}]}>
-                <Text style={style.title}>{preTitle}</Text>
-                <Text
-                  onPress={() => {
-                    DeviceEventEmitter.emit('clickMid');
-                    setScroll(!scroll);
-                  }}
-                  selectable
-                  style={[
-                    textStyle,
-                    {
-                      minHeight: windowHeight - padding * 2,
-                    },
-                  ]}>
-                  {content}
-                </Text>
-              </View>
+    <SafeAreaView style={{flex: 1}}>
+      <View key={122} style={[{padding}]}>
+        <Text
+          style={[textStyle, style.noPlay]}
+          onTextLayout={text => {
+            const lineArr = text.nativeEvent.lines.map(txt => {
+              return txt.text;
+            });
+            // console.log(parseContent(lineArr, fontCount.height).length);
+            setPreLinesArr(parseContent(lineArr, fontCount.height, preTitle));
+          }}>
+          {preContent}
+        </Text>
+        <Text
+          style={[textStyle, style.noPlay]}
+          onTextLayout={text => {
+            const lineArr = text.nativeEvent.lines.map(txt => {
+              return txt.text;
+            });
+            // console.log(parseContent(lineArr, fontCount.height).length);
+            setCurLinesArr(parseContent(lineArr, fontCount.height, curTitle));
+          }}>
+          {curContent}
+        </Text>
+        <Text
+          style={[textStyle, style.noPlay]}
+          onTextLayout={text => {
+            const lineArr = text.nativeEvent.lines.map(txt => {
+              return txt.text;
+            });
+            // console.log(parseContent(lineArr, fontCount.height).length);
+            setNexLinesArr(parseContent(lineArr, fontCount.height, nexTitle));
+          }}>
+          {nexContent}
+        </Text>
+        <Text
+          style={[textStyle, style.noPlay]}
+          onTextLayout={text => {
+            const lineArr = text.nativeEvent.lines.map(txt => {
+              return txt.text;
+            });
+            console.log('lineArrUpdate-------------------');
+            // console.log(parseContent(lineArr, fontCount.height, nexTitle));
+            addPreContent(
+              parseContent(lineArr, fontCount.height, content?.title),
             );
-          })}
-        <View key={222} style={[{padding}]}>
-          <Text
-            style={[textStyle, style.noPlay]}
-            onTextLayout={text => {
-              const lineArr = text.nativeEvent.lines.map(txt => {
-                return txt.text;
-              });
-              setCurLinesArr(parseContent(lineArr, fontCount.height));
-            }}>
-            {curContent}
-          </Text>
-          <Text style={style.title}>{curTitle}</Text>
-          <Text
-            onPress={() => {
-              DeviceEventEmitter.emit('clickMid');
-              setScroll(!scroll);
-            }}
-            selectable
-            style={[
-              textStyle,
-              style.firstPage,
-              {
-                minHeight: windowHeight - padding * 2,
-              },
-            ]}>
-            {curLinesArr[0]}
-          </Text>
-        </View>
-        {curLinesArr.slice(1, curLinesArr.length).map((content, idx) => {
-          const index = idx + 1;
-          return (
-            <View key={index} style={[{padding}]}>
-              <Text style={style.title}>{curTitle}</Text>
-              <Text
-                onPress={() => {
-                  DeviceEventEmitter.emit('clickMid');
-                  setScroll(!scroll);
-                }}
-                selectable
-                style={[
-                  textStyle,
-                  {
-                    minHeight: windowHeight - padding * 2,
-                  },
-                ]}>
-                {content}
-              </Text>
-            </View>
-          );
-        })}
-        <View key={322} style={[{padding}]}>
-          <Text
-            style={[textStyle, style.noPlay]}
-            onTextLayout={text => {
-              const lineArr = text.nativeEvent.lines.map(txt => {
-                return txt.text;
-              });
-              setNexLinesArr(parseContent(lineArr, fontCount.height));
-            }}>
-            {nexContent}
-          </Text>
-          <Text style={style.title}>{nexTitle}</Text>
-          <Text
-            onPress={() => {
-              DeviceEventEmitter.emit('clickMid');
-              setScroll(!scroll);
-            }}
-            selectable
-            style={[
-              textStyle,
-              style.firstPage,
-              {
-                minHeight: windowHeight - padding * 2,
-              },
-            ]}>
-            {nexLinesArr[0]}
-          </Text>
-        </View>
-        {nexLinesArr.slice(1, nexLinesArr.length).map((content, idx) => {
-          const index = idx + 1;
-          return (
-            <View key={index} style={[{padding}]}>
-              <Text style={style.title}>{nexTitle}</Text>
-              <Text
-                onPress={() => {
-                  DeviceEventEmitter.emit('clickMid');
-                  setScroll(!scroll);
-                }}
-                selectable
-                style={[
-                  textStyle,
-                  {
-                    minHeight: windowHeight - padding * 2,
-                  },
-                ]}>
-                {content}
-              </Text>
-            </View>
-          );
-        })} */}
-        {/* </AnimatedPagerView> */}
+          }}>
+          {content?.content}
+        </Text>
       </View>
-    </TouchableWithoutFeedback>
+      {!bool && (
+        <GestureHandlerRootView
+          style={[styles.flex, {backgroundColor: 'seashell'}]}>
+          <InfinitePager
+            key={`infinite-pager-slide`}
+            ref={pageRef}
+            renderPage={renderPage}
+            style={styles.flex}
+            pageWrapperStyle={styles.flex}
+            preset="slide"
+            pageBuffer={4}
+            onPageChange={index => {
+              console.log(
+                'onPageChangeindex:' + index + ',' + curLinesArr.length,
+              );
+              const mid = memo.current.midIndex;
+              const preL = memo.current.preLen;
+              const prePreL = memo.current.prePreL;
+              console.log('index:', index);
+              if (index + mid === mid - prePreL - 1 && preL > 1 && !bool) {
+                console.log('mid - prePreL:', mid - prePreL - 1);
+                getChapterForFun(
+                  ChapterList[curIdx - memo.current.count++],
+                ).then(({content, title}) => {
+                  setContent({content, title});
+                });
+              }
+            }}
+          />
+        </GestureHandlerRootView>
+      )}
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  flex: {flex: 1},
+});
+const NUM_ITEMS = 15;
+
+function getColor(i: number) {
+  const multiplier = 255 / (NUM_ITEMS - 1);
+  const colorVal = Math.abs(i) * multiplier;
+  return `rgb(${colorVal}, ${Math.abs(128 - colorVal)}, ${255 - colorVal})`;
+}
 const style = StyleSheet.create({
   warp: {
     // marginTop: StatusBar.currentHeight,
@@ -330,47 +288,3 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
 });
-const Scan: React.FC = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="novelList"
-        component={Content}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  );
-};
-export default Scan;
-const Test2: React.FC = () => {
-  const [list] = useState([{id: 0}, {id: 1}, {id: 2}]);
-
-  const keyExtractor = useCallback((item: any) => String(item.id), []);
-  const renderItem = useCallback(({item}) => {
-    const content = new Array(1000).fill(Math.random());
-
-    return (
-      <ScrollView style={{flex: 1, backgroundColor: '#eee'}}>
-        <Text style={{fontSize: 40, fontWeight: 'bold', color: 'red'}}>
-          {item.id}
-        </Text>
-        <Text>{content.join('')}</Text>
-      </ScrollView>
-    );
-  }, []);
-
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <AnimatedPagerView
-        style={{flex: 1}}
-        data={list}
-        initialPage={0}
-        buffer={1}
-        maxRenderWindow={3}
-        orientation="horizontal"
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-      />
-    </SafeAreaView>
-  );
-};

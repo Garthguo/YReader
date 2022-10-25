@@ -1,9 +1,20 @@
-type IParseContent = (contentArr: string[], lineCount: number) => string[];
-const parseContent: IParseContent = (contentArr, lineCount) => {
-  const contents: string[] = [];
+type IParseContent = (
+  contentArr: string[],
+  lineCount: number,
+  title: string,
+) => any[];
+const parseContent: IParseContent = (contentArr, lineCount, title) => {
+  console.log('lineCount', lineCount);
+
+  const contents: any[] = [];
   let count = 0;
+  let idx = 0;
   while (count < contentArr.length) {
-    contents.push(contentArr.slice(count, count + lineCount).join(''));
+    contents.push({
+      content: contentArr.slice(count, count + lineCount).join(''),
+      title: title + idx++,
+    });
+    // contents.push(contentArr.slice(count, count + lineCount).join(''));
     count += lineCount;
   }
   return contents;

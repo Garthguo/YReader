@@ -13,10 +13,8 @@ import {PagerView} from 'react-native-pager-view';
 import useChapterForUrl from 'src/hooks/useChapterForUrl';
 import ChapterList from 'src/assets/js/data';
 import {parseContent, getKeyString} from 'src/util/parse';
-let count = 0;
-let count1 = 0;
+
 const fontCount = {height: 1};
-let bool = true;
 console.log('----------');
 let events: any[] = [];
 const Content: React.FC = () => {
@@ -50,6 +48,12 @@ const Content: React.FC = () => {
     get: nexGet,
   } = useChapterForUrl(ChapterList[curIdx + 1]);
   fontCount.height = Math.floor((windowHeight - padding * 2) / lineHeight);
+
+  useLayoutEffect(() => {
+    if (preLinesArr.length && curLinesArr.length && nexLinesArr.length) {
+      pageRef.current.setPageWithoutAnimation(preLinesArr.length);
+    }
+  }, [preLinesArr.length, curLinesArr.length, nexLinesArr.length]);
   useEffect(() => {
     events.push(
       DeviceEventEmitter.addListener('changeChapter', type => {
@@ -76,13 +80,13 @@ const Content: React.FC = () => {
   return (
     <TouchableWithoutFeedback>
       <PagerView
-        keyList={`${getKeyString(
-          preLinesArr.length,
-          ChapterList[curIdx - 1],
-        )}-${getKeyString(
-          curLinesArr.length,
-          ChapterList[curIdx],
-        )}-${getKeyString(nexLinesArr.length, ChapterList[curIdx + 1])}`}
+        // keyList={`${getKeyString(
+        //   preLinesArr.length,
+        //   ChapterList[curIdx - 1],
+        // )}-${getKeyString(
+        //   curLinesArr.length,
+        //   ChapterList[curIdx],
+        // )}-${getKeyString(nexLinesArr.length, ChapterList[curIdx + 1])}`}
         overdrag={true}
         ref={pageRef}
         style={style.warp}
@@ -92,18 +96,19 @@ const Content: React.FC = () => {
           if (preGet && curGet && nexGet && show) {
             if (
               e.nativeEvent.position < preLinesArr.length &&
-              e.nativeEvent.position !== 1 &&
+              e.nativeEvent.position !== 0 &&
               preLinesArr.length
             ) {
-              //console.log('setIdx-1');
+              console.log('setIdx-1', e.nativeEvent.position);
               //console.log('当前页', e.nativeEvent.position);
               //console.log('----------------------------------------');
               // setTimeout(() => {
+              // pageRef.current.setPageWithoutAnimation(preLinesArr.length - 1);
               setCurIdx(i => i - 1);
               bool = false;
               // }, 1000);
             } else if (
-              e.nativeEvent.position >
+              e.nativeEvent.position >=
                 preLinesArr.length + curLinesArr.length &&
               curLinesArr.length &&
               preLinesArr.length
@@ -144,7 +149,7 @@ const Content: React.FC = () => {
                   minHeight: windowHeight - padding * 2,
                 },
               ]}>
-              {preLinesArr[0]}
+              {preLinesArr[0]?.content}
             </Text>
           </View>
         )}
@@ -168,7 +173,7 @@ const Content: React.FC = () => {
                       minHeight: windowHeight - padding * 2,
                     },
                   ]}>
-                  {content}
+                  {content.content}
                 </Text>
               </View>
             );
@@ -198,7 +203,7 @@ const Content: React.FC = () => {
                 minHeight: windowHeight - padding * 2,
               },
             ]}>
-            {curLinesArr[0]}
+            {curLinesArr[0]?.content}
           </Text>
         </View>
         {curLinesArr.slice(1, curLinesArr.length).map((content, idx) => {
@@ -218,7 +223,7 @@ const Content: React.FC = () => {
                     minHeight: windowHeight - padding * 2,
                   },
                 ]}>
-                {content}
+                {content.content}
               </Text>
             </View>
           );
@@ -248,7 +253,7 @@ const Content: React.FC = () => {
                 minHeight: windowHeight - padding * 2,
               },
             ]}>
-            {nexLinesArr[0]}
+            {nexLinesArr[0]?.content}
           </Text>
         </View>
         {nexLinesArr.slice(1, nexLinesArr.length).map((content, idx) => {
@@ -270,7 +275,7 @@ const Content: React.FC = () => {
                     minHeight: windowHeight - padding * 2,
                   },
                 ]}>
-                {content}
+                {content.content}
               </Text>
             </View>
           );
