@@ -6479,6 +6479,11 @@ react-native-iconfont-cli@^2.2.4:
     mkdirp "^0.5.1"
     tslib "^1.10.0"
 
+react-native-infinite-pager@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmmirror.com/react-native-infinite-pager/-/react-native-infinite-pager-0.2.0.tgz#e7e0549ae58b259a7941dbd4fae8203ee0e04773"
+  integrity sha512-VBXKmzCfF/Y6Q3c1zbb7V2psBPDjIln3Xhx4fhKjpqThBYPLu5gRH+D73ZwoHDTrx2UBonCxQD4yAv7j8kX5bg==
+
 react-native-pager-view@^6.0.0-rc.2:
   version "6.0.0-rc.2"
   resolved "https://registry.npmmirror.com/react-native-pager-view/-/react-native-pager-view-6.0.0-rc.2.tgz#8a10b5fb57fbdab82a7684238ea349a2410304b2"
