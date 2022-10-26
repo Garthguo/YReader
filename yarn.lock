@@ -6481,13 +6481,18 @@ react-native-iconfont-cli@^2.2.4:
 
 react-native-infinite-pager@^0.2.0:
   version "0.2.0"
-  resolved "https://registry.npmmirror.com/react-native-infinite-pager/-/react-native-infinite-pager-0.2.0.tgz#e7e0549ae58b259a7941dbd4fae8203ee0e04773"
+  resolved "https://registry.npmmirror.com/react-native-infinite-pager/-/react-native-infinite-pager-0.2.0.tgz"
   integrity sha512-VBXKmzCfF/Y6Q3c1zbb7V2psBPDjIln3Xhx4fhKjpqThBYPLu5gRH+D73ZwoHDTrx2UBonCxQD4yAv7j8kX5bg==
 
+react-native-mmkv@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.npmmirror.com/react-native-mmkv/-/react-native-mmkv-2.4.3.tgz"
+  integrity sha512-0hYNOTbsjJ5j5cpX+qjwReGIxuYE9MWRsyPQ72fTOvzmEjYXCF4Wr2VQoqx8R6W1/Uinekvln7dGvJ4RExmHhQ==
+
 react-native-pager-view@^6.0.0-rc.2:
-  version "6.0.0-rc.2"
-  resolved "https://registry.npmmirror.com/react-native-pager-view/-/react-native-pager-view-6.0.0-rc.2.tgz#8a10b5fb57fbdab82a7684238ea349a2410304b2"
-  integrity sha512-osWnYxGaTaKbH9+wxGULt8Q9c5h3AVo+njTEqf2jmxqaVpWzlaIsxU1MWF7Tbk1BN8RiC11szMtOQ0Jlx8Hcag==
+  version "6.0.1"
+  resolved "https://registry.npmmirror.com/react-native-pager-view/-/react-native-pager-view-6.0.1.tgz"
+  integrity sha512-kOVNu+4JnR3Gpykviy4WbOAnQz8TgP6O2pRvne221oPUDQLYrvEE/FINR0P85TxbMgvKTPlLejGw0ZHQbezK/g==
 
 react-native-reanimated@^2.11.0:
   version "2.11.0"
