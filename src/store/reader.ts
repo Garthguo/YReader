@@ -1,10 +1,11 @@
 import create from 'zustand';
 import {persist} from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import zustandStorage from './zustandStorage';
 interface IContentSetting {
   fontSize: number;
   lineCount: number;
-  //   color: string;
+  color: string;
   bgColor: string;
   textColor: string;
   padding: number;
@@ -12,13 +13,14 @@ interface IContentSetting {
 }
 // const LINE_COUNT_MIN = 1.2;
 // const LINE_COUNT_MAX = 3;
-const store = persist<IContentSetting & MapToSetMethodsType>(
+const themeStore = persist<IContentSetting & MapToSetMethodsType>(
   (set, get) => ({
     fontSize: 20,
     lineCount: 1.8,
     padding: 20,
     fontFamily: 'myFont',
     bgColor: '#f6f5fa',
+    color: '#f6f5fa',
     textColor: '#09080a',
     addFontSize: () => set({fontSize: get().fontSize + 1}),
     subFontSize: () => set({fontSize: get().fontSize - 1}),
@@ -31,10 +33,12 @@ const store = persist<IContentSetting & MapToSetMethodsType>(
   }),
   {
     name: 'contentSeting',
-    getStorage: () => AsyncStorage,
+    getStorage: () => zustandStorage,
   },
 );
-const useContentSetStore = create(store);
+const useContentSetStore = create(themeStore);
+// const useProgresStore = create(pregresStore);
+// export {useContentSetStore, useProgresStore};
 export {useContentSetStore};
 type ChangeToSetMethods<T extends {}, C extends string = 'set'> = {
   [K in keyof T as `${C}${Capitalize<K & string>}`]?: (arg: T[K]) => any;
