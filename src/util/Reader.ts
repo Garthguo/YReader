@@ -1,15 +1,16 @@
 import cheerio from 'cheerio';
 import sanitizeHtml from 'sanitize-html';
 import {toDBC} from './parse';
-export const getNovelContent = async (url: string, item) => {
+export const getNovelContent = async (url: string) => {
   let content = '';
   let title = '';
   await fetch(url)
     .then(function (response) {
-      // The API call was successful!
       return response.text();
     })
     .then(function (data) {
+      console.log(data);
+
       let clean = sanitizeHtml(data, {
         allowedAttributes: false,
         exclusiveFilter: function (frame) {

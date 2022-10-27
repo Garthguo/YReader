@@ -3,28 +3,25 @@ import {getNovelContent} from 'src/util/Reader';
 type ChapterContent = {content?: string; title?: string};
 const cache: Map<string, ChapterContent> = new Map();
 const useChapterForUrl = (url: string) => {
-  console.log(url);
-  const [content, setContent] = useState('');
-  const [title, setTitle] = useState('');
+  const [content, setContent] = useState<ChapterContent>({
+    content: '',
+    title: '',
+  });
   const isGet = useRef(false);
   useLayoutEffect(() => {
     if (cache.has(url)) {
       const data: ChapterContent = cache.get(url) || {};
-      console.log('data', data.title);
-      setContent(data.content ?? '');
-      setTitle(data.title ?? '');
+      setContent(data ?? '');
       isGet.current = true;
     } else {
-      getNovelContent(url, []).then(res => {
-        setContent(res.content);
-        setTitle(res.title);
-        cache.set(url, {content: res.content, title: res.title});
+      getNovelContent(url).then(res => {
+        setContent(res);
+        cache.set(url, res);
         isGet.current = true;
       });
     }
   }, [url]);
-  console.log(title);
-  return {content, title, get: isGet.current};
+  return {...content, get: isGet.current};
 };
 const getChapterForFun = async url => {
   let content = '';

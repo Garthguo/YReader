@@ -4,7 +4,7 @@ type IParseContent = (
   title: string,
 ) => any[];
 const parseContent: IParseContent = (contentArr, lineCount, title) => {
-  console.log('lineCount', lineCount);
+  // console.log('lineCount', lineCount);
 
   const contents: any[] = [];
   let count = 0;
@@ -22,7 +22,6 @@ const parseContent: IParseContent = (contentArr, lineCount, title) => {
 const getKeyString = (length: number, url: string): string => {
   let re = '';
   const num = url.match(/\d+/g)?.join('');
-  // console.log(num);
   if (length === 0) {
     return Math.random().toString().substring(2);
   }
@@ -35,8 +34,6 @@ const getKeyString = (length: number, url: string): string => {
         re += num + '' + idx + '';
       }
     });
-  // console.log(re);
-
   return re;
 };
 const reg =

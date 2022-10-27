@@ -35,18 +35,11 @@ const BookItem = ({navigation, windowWidth}) => {
       </ListItem.Part>
       <ListItem.Part middle column>
         <View style={{paddingRight: 20, width: windowWidth - 76 - 20 * 2}}>
-          <Text
-            style={{fontWeight: 'bold'}}
-            grey10
-            text70
-            // style={{flex: 1, marginRight: 10}}
-            // numberOfLines={3}
-          >
-            一剑独尊
+          <Text style={{fontWeight: 'bold'}} grey10 text70>
+            道诡异仙
           </Text>
           <Text color={'#84888e'} text100>
-            114章未读 · 第七十七章
-            给垃圾搽屁股给垃圾搽屁股给垃圾搽屁111股给垃圾搽屁股
+            114章未读 · 第七十七章 娃，你着相了
           </Text>
         </View>
       </ListItem.Part>

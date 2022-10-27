@@ -90,11 +90,6 @@ function NovelTabs() {
 }
 
 const App = () => {
-  // const isDarkMode = useColorScheme() === 'dark';
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-
   return (
     <NavigationContainer theme={MyTheme}>
       <StatusBar

@@ -80,13 +80,6 @@ const Content: React.FC = () => {
   return (
     <TouchableWithoutFeedback>
       <PagerView
-        // keyList={`${getKeyString(
-        //   preLinesArr.length,
-        //   ChapterList[curIdx - 1],
-        // )}-${getKeyString(
-        //   curLinesArr.length,
-        //   ChapterList[curIdx],
-        // )}-${getKeyString(nexLinesArr.length, ChapterList[curIdx + 1])}`}
         overdrag={true}
         ref={pageRef}
         style={style.warp}
@@ -118,7 +111,6 @@ const Content: React.FC = () => {
               //console.log('----------------------------------------');
               // setTimeout(() => {
               setCurIdx(i => i + 1);
-              bool = false;
               // }, 1000);
             }
           }

@@ -49,7 +49,6 @@ const ReaderScreen: React.FC = ({navigation}: any) => {
       <Stack.Screen
         name="NovelList"
         component={novelList}
-        // options={{headerShown: false}}
         options={{
           headerShadowVisible: false,
           header: HeaderCustom,

@@ -7,6 +7,7 @@ import {StatusBar, DeviceEventEmitter} from 'react-native';
 import {useContentSetStore} from 'src/store/reader';
 import {View} from 'react-native-ui-lib';
 import {useMemo} from 'react';
+import Content1 from './components/content1';
 let count = 0;
 let events = [];
 const NovelContent: React.FC = ({navigation}: any) => {
@@ -26,10 +27,6 @@ const NovelContent: React.FC = ({navigation}: any) => {
   }, []);
   console.log('parent', count++);
 
-  // const content = useMemo(() => <Content onMiddlePress={onMiddlePress} />, []);
-  // console.log(cont === content);
-  // cont = content;
-
   return (
     <View style={{backgroundColor: bgColor}}>
       <StatusBar
@@ -39,7 +36,7 @@ const NovelContent: React.FC = ({navigation}: any) => {
         barStyle={'light-content'}
       />
       {/* {!first.current && <Header visible={visible} />} */}
-      <Content />
+      <Content1 />
       {!isFirst && <Footer visible={visible} />}
     </View>
   );
