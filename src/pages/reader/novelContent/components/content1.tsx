@@ -133,7 +133,6 @@ const Content: React.FC = () => {
         <Text
           style={[textStyle]}
           onTextLayout={({nativeEvent}) => {
-            console.log(nativeEvent.lines);
             const lineArr = nativeEvent.lines.map(txt => {
               return txt.text;
             });

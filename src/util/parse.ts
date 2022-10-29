@@ -4,8 +4,6 @@ type IParseContent = (
   title: string,
 ) => any[];
 const parseContent: IParseContent = (contentArr, lineCount, title) => {
-  // console.log('lineCount', lineCount);
-
   const contents: any[] = [];
   let count = 0;
   let idx = 0;
@@ -14,28 +12,11 @@ const parseContent: IParseContent = (contentArr, lineCount, title) => {
       content: contentArr.slice(count, count + lineCount).join(''),
       title: title + idx++,
     });
-    // contents.push(contentArr.slice(count, count + lineCount).join(''));
     count += lineCount;
   }
   return contents;
 };
-const getKeyString = (length: number, url: string): string => {
-  let re = '';
-  const num = url.match(/\d+/g)?.join('');
-  if (length === 0) {
-    return Math.random().toString().substring(2);
-  }
-  Array(length)
-    .fill('')
-    .map((_, idx) => {
-      if (idx !== length - 1) {
-        re += num + '' + idx + '-';
-      } else {
-        re += num + '' + idx + '';
-      }
-    });
-  return re;
-};
+
 const reg =
   /[\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/;
 function toDBC(str: string): string {
@@ -55,4 +36,4 @@ function toDBC(str: string): string {
   }
   return result.replace(/【/g, '[').replace(/】/g, ']').replace(/！/g, '!');
 }
-export {parseContent, toDBC, getKeyString};
+export {parseContent, toDBC};

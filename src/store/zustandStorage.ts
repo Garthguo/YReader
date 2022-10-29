@@ -15,4 +15,5 @@ const zustandStorage: StateStorage = {
     return storage.delete(name);
   },
 };
+export {storage};
 export default zustandStorage;

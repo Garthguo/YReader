@@ -10,30 +10,31 @@ import {
 import NovelContent from './novelContent';
 import novelList from './novelList';
 
-import IconFont, {IconNames} from '../../iconfont';
+import IconFont from '../../iconfont';
 import {Button} from 'react-native-ui-lib';
-import {useContentSetStore} from 'src/store/reader';
+import SearchPreShow from './novelSearch';
+import {useNavigation} from '@react-navigation/native';
+import SearchDetail from './novelSearch/searchDetail';
 
 const Stack = createNativeStackNavigator();
 const HeaderCustom = () => {
+  const navigation = useNavigation();
   return (
     <View style={[Style.search, {paddingTop: StatusBar.currentHeight}]}>
-      {/* <View style={[Style.search]}> */}
       <TouchableHighlight
         activeOpacity={0.6}
         underlayColor="#ddd"
         style={{borderRadius: Style.search_child.borderRadius}}
-        onPress={() => console.log(1)}>
+        onPress={() => navigation.navigate('NovelPreShow')}>
         <View style={Style.search_child}>
-          <IconFont onPress={() => {}} name={'search'} size={25} />
-
+          <IconFont onPress={() => {}} name={'search'} size={23} />
           <View style={Style.search_right}>
             <View style={Style.border} />
             <Button
               activeBackgroundColor={'#000'}
               backgroundColor={'#ecedf1'}
               iconSource={() => (
-                <IconFont onPress={() => {}} name={'add-select'} size={25} />
+                <IconFont onPress={() => {}} name={'add-select'} size={23} />
               )}
             />
           </View>
@@ -43,7 +44,6 @@ const HeaderCustom = () => {
   );
 };
 const ReaderScreen: React.FC = ({navigation}: any) => {
-  const {bgColor} = useContentSetStore();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -58,13 +58,26 @@ const ReaderScreen: React.FC = ({navigation}: any) => {
         name="NovelContent"
         component={NovelContent}
         options={{
-          contentStyle: {
-            backgroundColor: bgColor,
-          },
           headerShown: false,
           animation: 'fade',
         }}
       />
+      <Stack.Screen
+        name="NovelPreShow"
+        component={SearchPreShow}
+        options={{
+          headerShown: false,
+          animation: 'fade',
+        }}
+      />
+      {/* <Stack.Screen
+        name="NovelSearchList"
+        component={SearchDetail}
+        options={{
+          headerShown: false,
+          animation: 'fade',
+        }}
+      /> */}
     </Stack.Navigator>
   );
 };
@@ -81,7 +94,7 @@ const Style = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#ecedf1',
     justifyContent: 'space-between',
-    borderRadius: 15,
+    borderRadius: 999,
     overflow: 'hidden',
   },
   search_right: {
@@ -98,4 +111,5 @@ const Style = StyleSheet.create({
     borderStyle: 'solid',
   },
 });
+
 export default ReaderScreen;

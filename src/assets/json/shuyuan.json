@@ -1,0 +1,46 @@
+[
+  {
+    "bookSourceComment": "",
+    "bookSourceGroup": "",
+    "bookSourceName": "云小说网",
+    "bookSourceType": 0,
+    "bookSourceUrl": "http://www.yunxs.com",
+    "bookUrlPattern": "",
+    "customOrder": 3,
+    "enabled": true,
+    "enabledExplore": false,
+    "exploreUrl": "",
+    "header": "",
+    "lastUpdateTime": 1601041283979,
+    "loginUrl": "",
+    "ruleBookInfo": {
+      "author": "class.info.0@tag.a.0@text",
+      "coverUrl": "class.pic@tag.img@src",
+      "intro": "class.info.0@tag.p.2@text##简介：",
+      "kind": "class.info.0@tag.a.1@text",
+      "lastChapter": "class.words@tag.a@text",
+      "name": "class.title@tag.h1@text",
+      "wordCount": "id.cms_ready_1@text"
+    },
+    "ruleContent": {
+      "content": "class.box_box@textNodes"
+    },
+    "ruleExplore": {},
+    "ruleSearch": {
+      "author": "class.words@tag.p.0@text##作者.|类型.*",
+      "bookList": "class.ul_b_list@tag.li",
+      "bookUrl": "tag.a.0@href",
+      "coverUrl": "class.pic@tag.img@src",
+      "kind": "tag.span.0@text",
+      "lastChapter": "tag.a.0@href<js>java.ajax('http://www.yunxs.com'+result)</js>class.words@tag.a@text",
+      "name": "tag.h2@tag.a@text"
+    },
+    "ruleToc": {
+      "chapterList": "class.list_box@tag.li",
+      "chapterName": "tag.a@text",
+      "chapterUrl": "tag.a@href"
+    },
+    "searchUrl": "/plus/search.php?kwtype=0&searchtype=搜索&q={{key}},{\n  \"charset\": \"UTF8\"\n}",
+    "weight": 0
+  }
+]

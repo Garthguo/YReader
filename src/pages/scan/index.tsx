@@ -1,7 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import React from 'react';
-import Test from './Test';
+import {Test} from './Test';
 const Stack = createNativeStackNavigator();
 
 const Scan: React.FC = () => {

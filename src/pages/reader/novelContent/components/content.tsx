@@ -106,12 +106,7 @@ const Content: React.FC = () => {
               curLinesArr.length &&
               preLinesArr.length
             ) {
-              //console.log('setIdx+1');
-              //console.log('当前页', e.nativeEvent.position);
-              //console.log('----------------------------------------');
-              // setTimeout(() => {
               setCurIdx(i => i + 1);
-              // }, 1000);
             }
           }
         }}>
