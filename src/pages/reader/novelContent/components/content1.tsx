@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   StatusBar,
+  DeviceEventEmitter,
 } from 'react-native';
 import React, {
   useCallback,
@@ -109,7 +110,11 @@ const Content: React.FC = () => {
           <Text style={style.title}>
             {DATA.current.LEFT.contents[-index - 1]?.title ?? `${index}`}
           </Text>
-          <Text style={textStyle}>
+          <Text
+            style={textStyle}
+            onPress={() => {
+              DeviceEventEmitter.emit('clickMid');
+            }}>
             {DATA.current.LEFT.contents[-index - 1]?.content ?? ''}
           </Text>
         </View>
@@ -120,7 +125,11 @@ const Content: React.FC = () => {
           <Text style={style.title}>
             {DATA.current.RIGHT.contents[index]?.title ?? `${index}`}
           </Text>
-          <Text style={textStyle}>
+          <Text
+            style={textStyle}
+            onPress={() => {
+              DeviceEventEmitter.emit('clickMid');
+            }}>
             {DATA.current.RIGHT.contents[index]?.content ?? ''}
           </Text>
         </View>

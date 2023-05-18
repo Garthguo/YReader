@@ -3,8 +3,10 @@ import {
   StyleSheet,
   TouchableHighlight,
   View,
+  TouchableWithoutFeedback,
   Text,
   Dimensions,
+  DeviceEventEmitter,
 } from 'react-native';
 import {Button} from 'react-native-ui-lib';
 import * as Animatable from 'react-native-animatable';
@@ -41,46 +43,67 @@ const Footer = ({visible}) => {
       useNativeDriver
       animation={visible ? 'fadeIn' : 'fadeOutDown'}
       duration={200}>
-      <View style={style.footerWrap}>
-        <ShowIndexComponent index={currentToolIndex} toolRenders={toolRenders}>
-          <View style={style.footer}>
-            <THH
-              onPress={() => {
-                setCurrentIndex(0);
-              }}
-              children={<IconCategory size={size} />}
-            />
-            <THH
-              onPress={() => {
-                setCurrentIndex(1);
-              }}
-              children={<IconAdd size={size} />}
-            />
-            <THH
-              onPress={() => {
-                setCurrentIndex(2);
-              }}
-              children={<IconAdd size={size} />}
-            />
-            <THH
-              onPress={() => {
-                setCurrentIndex(3);
-              }}
-              children={<IconDaytimemode size={size} />}
-            />
-            <THH
-              onPress={() => {
-                setCurrentIndex(4);
-              }}
-              children={<IconConditions size={size} />}
-            />
-          </View>
-        </ShowIndexComponent>
-      </View>
+      <TouchableWithoutFeedback
+        style={style.fullPage}
+        onPress={() => {
+          console.log(
+            '%c [ onPress ]-51',
+            'font-size:13px; background:pink; color:#bf2c9f;',
+            'onPress',
+          );
+          // DeviceEventEmitter.emit('clickMid');
+        }}>
+        <View style={style.footerWrap}>
+          <ShowIndexComponent
+            index={currentToolIndex}
+            toolRenders={toolRenders}>
+            <View style={style.footer}>
+              <THH
+                onPress={() => {
+                  setCurrentIndex(0);
+                }}
+                children={<IconCategory size={size} />}
+              />
+              <THH
+                onPress={() => {
+                  setCurrentIndex(1);
+                }}
+                children={<IconAdd size={size} />}
+              />
+              <THH
+                onPress={() => {
+                  setCurrentIndex(2);
+                }}
+                children={<IconAdd size={size} />}
+              />
+              <THH
+                onPress={() => {
+                  setCurrentIndex(3);
+                }}
+                children={<IconDaytimemode size={size} />}
+              />
+              <THH
+                onPress={() => {
+                  setCurrentIndex(4);
+                }}
+                children={<IconConditions size={size} />}
+              />
+            </View>
+          </ShowIndexComponent>
+        </View>
+      </TouchableWithoutFeedback>
     </Animatable.View>
   );
 };
 const style = StyleSheet.create({
+  fullPage: {
+    // zIndex: 9999,
+    // position: 'absolute',
+    // top: 0,
+    // width: '100%',
+    // height: '100%',
+    // backgroundColor: '#ffffff',
+  },
   footerWrap: {
     zIndex: 200,
     position: 'absolute',

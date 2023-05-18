@@ -14,7 +14,6 @@ const ChapterSwitch = () => {
     <View style={[style.wrap, {width}]} flex row center>
       <TouchableOpacity
         onPress={() => {
-          console.log('DeviceEventEmitter');
           DeviceEventEmitter.emit('changeChapter', 'pre');
         }}>
         <IconArrowLeft size={45} />

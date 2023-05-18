@@ -11,14 +11,14 @@ import Content1 from './components/content1';
 let count = 0;
 let events = [];
 const NovelContent: React.FC = ({navigation}: any) => {
-  const [visible, setVisiable] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const isFirst = useFirstRender();
   const {bgColor} = useContentSetStore();
 
   useEffect(() => {
     events.push(
       DeviceEventEmitter.addListener('clickMid', () => {
-        setVisiable(visible => !visible);
+        setVisible(value => !value);
       }),
     );
     return () => {
@@ -35,7 +35,7 @@ const NovelContent: React.FC = ({navigation}: any) => {
         hidden={!visible}
         barStyle={'light-content'}
       />
-      {/* {!first.current && <Header visible={visible} />} */}
+      {/* {!isFirst && <Header visible={visible} />} */}
       <Content1 />
       {!isFirst && <Footer visible={visible} />}
     </View>

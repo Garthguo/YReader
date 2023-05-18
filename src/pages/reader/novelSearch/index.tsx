@@ -13,13 +13,13 @@ import {useMMKVObject} from 'react-native-mmkv';
 import SearchDetail from './searchDetail';
 const SearchPreShow = () => {
   const [history = [], setHistory] = useMMKVObject<string[]>('user.history');
-  const [searchText, setSearxhText] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [isShowHistory, setIsShowHistory] = useState(true);
   const navigation = useNavigation();
   const inputRet = useRef(null);
   const clickText = (text: string) => {
     console.log(text);
-    setSearxhText(text);
+    setSearchText(text);
     setIsShowHistory(false);
     setHistory(
       [text, ...history].filter((txt, index) => txt !== text || index === 0),
@@ -70,7 +70,7 @@ const SearchPreShow = () => {
       {isShowHistory ? (
         <View style={Style.history_wrap}>
           <Text style={Style.history_text}>
-            搜索历史：{' '}
+            搜索历史：
             <Text
               onPress={() => setHistory([])}
               style={[Style.history_text, {color: Style.history_list.color}]}>
@@ -99,8 +99,8 @@ const SearchPreShow = () => {
 export default SearchPreShow;
 const Style = StyleSheet.create({
   wrap: {
-    marginHorizontal: 20,
-    marginVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   search: {
     display: 'flex',

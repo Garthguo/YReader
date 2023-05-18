@@ -20,13 +20,13 @@ export const getNovelContent = async (url: string) => {
       const $ = cheerio.load(
         clean.replace(/<\s*br[^>]*>/gi, '\n').replace(/\n{2,}/g, '\n'),
       );
-      const textContent = $('.box_box')
+      const textContent = $('#chaptercontent')
         .text()
         .trim()
         .split('\n')
         .map(_ => '\u3000\u3000' + _.trim())
         .join('\n');
-      title = $('.box_con h1').text();
+      title = $('.content h1').text();
       content = toDBC(textContent);
     })
     .catch(function (err) {

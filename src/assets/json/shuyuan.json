@@ -4,7 +4,7 @@
     "bookSourceGroup": "",
     "bookSourceName": "云小说网",
     "bookSourceType": 0,
-    "bookSourceUrl": "http://www.yunxs.com",
+    "bookSourceUrl": "https://www.yundu6.com",
     "bookUrlPattern": "",
     "customOrder": 3,
     "enabled": true,
@@ -40,7 +40,7 @@
       "chapterName": "tag.a@text",
       "chapterUrl": "tag.a@href"
     },
-    "searchUrl": "/plus/search.php?kwtype=0&searchtype=搜索&q={{key}},{\n  \"charset\": \"UTF8\"\n}",
+    "searchUrl": "/s?q={{key}},{\n  \"charset\": \"UTF8\"\n}",
     "weight": 0
   }
 ]

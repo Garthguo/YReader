@@ -1,16 +1,22 @@
 const getBookListWithRule = ($, url) => {
+  console.log(
+    '%c [ $, url ]-2',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    $,
+    url,
+  );
   const ruleFn = new Function(
     '$',
     'url',
-    `return $('.ul_b_list li')
+    `return $('.so_list .bookbox')
   .map(function (index) {
     return {
-      title: $('h2 a', this).text(),
-      author: $('.state', this)
+      title: $('.bookname', this).text(),
+      author: $('.author', this)
         .text()
         .match(/作者：(\\S*)/)[1],
-      cover: url+$('img', this).attr('src'),
-      url: url+$('h2 a', this).attr('href'),
+      cover: $('img', this).attr('src'),
+      url: url+$('.bookname a', this).attr('href'),
     };
   })
   .get();`,
