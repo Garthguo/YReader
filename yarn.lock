@@ -1407,6 +1407,14 @@
   dependencies:
     nanoid "^3.1.23"
 
+"@shopify/react-native-skia@^0.1.190":
+  version "0.1.190"
+  resolved "https://registry.npmmirror.com/@shopify/react-native-skia/-/react-native-skia-0.1.190.tgz#8914c5a3ba4ed39b49cd46740120fe4efc54c378"
+  integrity sha512-/IbE9+Nzu9ih3+fbcUrBlXck/PaWbrD4EGXm+I0QyTeUK+jmfiZunAABdcku33/Jk7FcFuN4lfRixF/wETX/bw==
+  dependencies:
+    canvaskit-wasm "0.38.0"
+    react-reconciler "^0.27.0"
+
 "@sideway/address@^4.1.3":
   version "4.1.4"
   resolved "https://r.cnpmjs.org/@sideway/address/-/address-4.1.4.tgz"
@@ -2418,6 +2426,11 @@ caniuse-lite@^1.0.30001400:
   version "1.0.30001423"
   resolved "https://r.cnpmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001423.tgz"
   integrity sha512-09iwWGOlifvE1XuHokFMP7eR38a0JnajoyL3/i87c8ZjRWRrdKo1fqjNfugfBD0UDBIOz0U+jtNhJ0EPm1VleQ==
+
+canvaskit-wasm@0.38.0:
+  version "0.38.0"
+  resolved "https://registry.npmmirror.com/canvaskit-wasm/-/canvaskit-wasm-0.38.0.tgz#83e6c46f3015c2ff3f6503157f47453af76a7be7"
+  integrity sha512-ZEG6lucpbQ4Ld+mY8C1Ng+PMLVP+/AX02jS0Sdl28NyMxuKSa9uKB8oGd1BYp1XWPyO2Jgr7U8pdyjJ/F3xR5Q==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -6624,6 +6637,14 @@ react-native@0.70.3:
     whatwg-fetch "^3.0.0"
     ws "^6.1.4"
 
+react-reconciler@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.npmmirror.com/react-reconciler/-/react-reconciler-0.27.0.tgz#360124fdf2d76447c7491ee5f0e04503ed9acf5b"
+  integrity sha512-HmMDKciQjYmBRGuuhIaKA1ba/7a+UsM5FzOZsMO2JYHt9Jh8reCb7j1eDC95NOyUlKM9KRyvdx0flBuDvYSBoA==
+  dependencies:
+    loose-envify "^1.1.0"
+    scheduler "^0.21.0"
+
 react-refresh@^0.4.0:
   version "0.4.3"
   resolved "https://r2.cnpmjs.org/react-refresh/-/react-refresh-0.4.3.tgz"
@@ -6982,6 +7003,13 @@ saxes@^5.0.1:
   integrity sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==
   dependencies:
     xmlchars "^2.2.0"
+
+scheduler@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.npmmirror.com/scheduler/-/scheduler-0.21.0.tgz#6fd2532ff5a6d877b6edb12f00d8ab7e8f308820"
+  integrity sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==
+  dependencies:
+    loose-envify "^1.1.0"
 
 scheduler@^0.22.0:
   version "0.22.0"

@@ -48,6 +48,11 @@ const Content: React.FC = () => {
   const {content: curContent, title: curTitle} = useChapterForUrl(
     ChapterList[curIdx],
   );
+  console.log(
+    '%c [ curContent ]-49',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    curContent,
+  );
   const {content: nexContent, title: nexTitle} = useChapterForUrl(
     ChapterList[curIdx + 1],
   );

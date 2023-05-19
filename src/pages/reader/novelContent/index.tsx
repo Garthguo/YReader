@@ -2,6 +2,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import Header from './components/header';
 import Content from './components/content';
 import Footer from './components/footer';
+import CanvasContent from './components/canvasContent';
+import ContentByCanvas from './components/ContentByCanvas';
 import useFirstRender from 'src/hooks/useFirstRender';
 import {StatusBar, DeviceEventEmitter} from 'react-native';
 import {useContentSetStore} from 'src/store/reader';
@@ -36,8 +38,10 @@ const NovelContent: React.FC = ({navigation}: any) => {
         barStyle={'light-content'}
       />
       {/* {!isFirst && <Header visible={visible} />} */}
-      <Content1 />
-      {!isFirst && <Footer visible={visible} />}
+      {/* <Content1 /> */}
+      {/* <CanvasContent /> */}
+      <ContentByCanvas />
+      {/* {!isFirst && <Footer visible={visible} />} */}
     </View>
   );
 };
