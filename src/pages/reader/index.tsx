@@ -15,6 +15,7 @@ import {Button} from 'react-native-ui-lib';
 import SearchPreShow from './novelSearch';
 import {useNavigation} from '@react-navigation/native';
 import SearchDetail from './novelSearch/searchDetail';
+import {useFont} from '@shopify/react-native-skia';
 
 const Stack = createNativeStackNavigator();
 const HeaderCustom = () => {
@@ -44,6 +45,7 @@ const HeaderCustom = () => {
   );
 };
 const ReaderScreen: React.FC = ({navigation}: any) => {
+  const font = useFont(require('src/assets/fonts/myFont.ttf'), 19);
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -56,7 +58,7 @@ const ReaderScreen: React.FC = ({navigation}: any) => {
       />
       <Stack.Screen
         name="NovelContent"
-        component={NovelContent}
+        children={() => <NovelContent font={font} />}
         options={{
           headerShown: false,
           animation: 'fade',

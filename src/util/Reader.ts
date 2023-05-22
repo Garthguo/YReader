@@ -1,4 +1,4 @@
-import cheerio from 'cheerio';
+import {load} from 'cheerio';
 import sanitizeHtml from 'sanitize-html';
 import source from '../assets/json/shuyuan.json';
 import {toDBC} from './parse';
@@ -17,7 +17,7 @@ export const getNovelContent = async (url: string) => {
           return frame.tag === 'script';
         },
       });
-      const $ = cheerio.load(
+      const $ = load(
         clean.replace(/<\s*br[^>]*>/gi, '\n').replace(/\n{2,}/g, '\n'),
       );
       const textContent = $('#chaptercontent')
@@ -44,7 +44,7 @@ export const getListFromSource = async (text: string) => {
   const data = await fetch(info.bookSourceUrl + url).then(function (response) {
     return response.text();
   });
-  const $ = cheerio.load(data);
+  const $ = load(data);
   const res = getBookListWithRule($, info.bookSourceUrl);
   return res;
 };

@@ -1,31 +1,37 @@
 // import {Dimensions, Text, useWindowDimensions, View} from 'react-native';
 import {Canvas, Glyphs, useFont} from '@shopify/react-native-skia';
 import React, {useRef} from 'react';
-import {StyleSheet, Text, useWindowDimensions} from 'react-native';
+import {StyleSheet, useWindowDimensions} from 'react-native';
 import calculateTextCoordinates from 'src/util/calculateTextCoordinates';
 import InfinitePager, {Preset} from 'react-native-infinite-pager';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {useContentSetStore} from 'src/store/reader';
 
-const CanvasContent = () => {
+const ReaderContent = () => {
   const count = useRef(0);
-  // const windowHeight = useWindowDimensions().height;
   console.log('count', count.current++);
-  const windowWidth = useWindowDimensions().width;
+  const {width, height} = useWindowDimensions();
   const pageRef = useRef(null);
-  const fontSize = 19;
+  const {fontSize, lineHeight, linePadding, margin} = useContentSetStore();
   const font = useFont(require('src/assets/fonts/myFont.ttf'), fontSize);
-
   if (font === null) {
     return null;
   }
   const {getGlyphIDs, getTextWidth} = font;
+  // font.setSize(fontSize);
+  // if (font === null) {
+  //   return null;
+  // }
+
   const config = {
+    width,
+    height,
+    margin,
     fontSize,
-    lineHeight: 40,
-    linePadding: 0,
-    getTextWidth,
+    lineHeight,
+    linePadding,
     getGlyphIDs,
-    margin: {left: 15, right: 15, top: 0, bottom: 0},
+    getTextWidth,
   };
   let glyphs = calculateTextCoordinates(content, config);
   const renderPage = ({index}: {index: number}) => {
@@ -49,23 +55,18 @@ const CanvasContent = () => {
         PageComponent={renderPage}
         preset={Preset.SLIDE}
         pageBuffer={1}
-        // initPage={page.offset}
         onPageChange={index => {
-          // if (index === 8) {
-          //   glyphs.push(...glyphs);
-          // }
           console.log(
             '%c [ index ]-51',
             'font-size:13px; background:pink; color:#bf2c9f;',
             index,
           );
         }}
-        // width={windowWidth}
       />
     </GestureHandlerRootView>
   );
 };
-export default CanvasContent;
+export default ReaderContent;
 var content = `第８章吞噬吸收
 　　唐三道：“那你的妖神变，也是通过混血传承下来的？” 
 　　青年咬牙切齿的道：“是的，一只豹妖侮辱了我母亲，后来有了我。” 
@@ -103,8 +104,8 @@ var content = `第８章吞噬吸收
 　　玄天功运转， 向那狼妖体内注入能量。
 　　狼妖刚死， 身体还是暖热的， 伴随着玄天功能量的注入， 唐三顿时感受到， 在这狼妖体内似乎有一股微弱的能量存在， 当自己的玄天功接触到这股能量的时候， 这股能量就像是遇到了吸铁石一般， 自然而然的被玄天功所吸附， 然后融入玄天功之中。
 　　能量不多， 但唐三却完全可以肯定， 那是切实存在的。 这是狼妖的血脉之力？
-　　请收藏本站： ｈｔｔｐｓ：／／ｗｗｗ．ｙｕｎｄｕ６．ｃｏｍ。 云读小说网手机版： ｈｔｔｐｓ：／／ｍ．ｙｕｎｄｕ６．ｃｏ`.replaceAll(
-  ' ',
+　　请收藏本站： ｈｔｔｐｓ：／／ｗｗｗ．ｙｕｎｄｕ６．ｃｏｍ。 云读小说网手机版： ｈｔｔｐｓ：／／ｍ．ｙｕｎｄｕ６．ｃｏ`.replace(
+  /' '/g,
   '',
 );
 const style = StyleSheet.create({

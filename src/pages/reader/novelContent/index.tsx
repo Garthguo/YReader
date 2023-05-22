@@ -3,7 +3,7 @@ import Header from './components/header';
 import Content from './components/content';
 import Footer from './components/footer';
 import CanvasContent from './components/canvasContent';
-import ContentByCanvas from './components/ContentByCanvas';
+import ContentByCanvas from './components/ReaderContent';
 import useFirstRender from 'src/hooks/useFirstRender';
 import {StatusBar, DeviceEventEmitter} from 'react-native';
 import {useContentSetStore} from 'src/store/reader';
@@ -11,10 +11,9 @@ import {View} from 'react-native-ui-lib';
 import {useMemo} from 'react';
 import Content1 from './components/content1';
 let count = 0;
-let events = [];
-const NovelContent: React.FC = ({navigation}: any) => {
+let events: any = [];
+const NovelContent: React.FC = ({navigation, font}: any) => {
   const [visible, setVisible] = useState<boolean>(false);
-  const isFirst = useFirstRender();
   const {bgColor} = useContentSetStore();
 
   useEffect(() => {
@@ -38,10 +37,8 @@ const NovelContent: React.FC = ({navigation}: any) => {
         barStyle={'light-content'}
       />
       {/* {!isFirst && <Header visible={visible} />} */}
-      {/* <Content1 /> */}
-      {/* <CanvasContent /> */}
-      <ContentByCanvas />
-      {/* {!isFirst && <Footer visible={visible} />} */}
+      <ContentByCanvas font={font} />
+      <Footer visible={visible} />
     </View>
   );
 };

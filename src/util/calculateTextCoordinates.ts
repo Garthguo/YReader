@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import {ConfigType} from 'src/store/reader';
 
 interface Position {
   id: number;
@@ -10,28 +10,21 @@ interface Position {
 
 interface Page {
   positions: Position[];
-  //   width: number;
-  //   height: number;
 }
 
-interface Config {
-  fontSize: number;
-  lineHeight: number;
-  linePadding: number;
-  getTextWidth: (text: string) => number;
-  getGlyphIDs: (text: string) => number[];
-  margin?: {
-    top?: number;
-    bottom?: number;
-    left?: number;
-    right?: number;
-  };
-}
-function calculateTextCoordinates(textContent: string, config: Config): Page[] {
-  const {fontSize, lineHeight, linePadding, getTextWidth, getGlyphIDs, margin} =
-    config;
-  const canvasWidth = Dimensions.get('window').width; // 屏幕宽度
-  const canvasHeight = Dimensions.get('window').height; // 屏幕高度
+function calculateTextCoordinates(
+  textContent: string,
+  config: ConfigType & {width: number; height: number},
+): Page[] {
+  const {
+    lineHeight,
+    linePadding,
+    getTextWidth,
+    getGlyphIDs,
+    margin,
+    width: canvasWidth,
+    height: canvasHeight,
+  } = config;
   const textWidth = canvasWidth - (margin?.right ?? 0) - (margin?.left ?? 0);
   const textHeight = canvasHeight - (margin?.top ?? 0) - (margin?.bottom ?? 0);
   const pages: Page[] = [];
@@ -49,11 +42,11 @@ function calculateTextCoordinates(textContent: string, config: Config): Page[] {
   let currentLine = 0;
 
   textContent.split('\n').forEach(text => {
-    const ids = getGlyphIDs(text);
+    const ids = getGlyphIDs?.(text) || [];
     const lines: Position[] = [];
     for (let i = 0; i < text.length; i++) {
       const char = text[i];
-      const charWidth = getTextWidth(char);
+      const charWidth = getTextWidth?.(char) || 0;
 
       if (xPos + charWidth - (margin?.left ?? 0) > textWidth) {
         const emptyWidth =
